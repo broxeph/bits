@@ -1,2 +1,2 @@
-# bits
-# THIS IS MY LITTLE PROJECT. \N IT'S ALL MINE
+# Bits and Pieces by Alex
+The little things. (Ameryn private code available on request)
