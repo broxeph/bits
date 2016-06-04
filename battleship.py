@@ -64,6 +64,8 @@ class Board:
             self.grid.append(row)
 
         self.ships = []
+        if ships is None:
+            ships = []
         for ship in ships:
             # Add ships to the board.
             if len(ships) >= MAX_SHIPS:
@@ -106,8 +108,8 @@ class Ship:
         """Returns the coords which a ship occupies."""
         coords = []
         for point in range(self.length):
-            x = self.begin[0] + (self.begin[0] != self.end[0] and point)
-            y = self.begin[1] + (self.begin[1] != self.end[1] and point)
+            x = self.begin[0] + (point if self.begin[0] != self.end[0] else 0)
+            y = self.begin[1] + (point if self.begin[1] != self.end[1] else 0)
             coords.append((x, y))
         return coords
 

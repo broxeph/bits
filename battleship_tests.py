@@ -1,6 +1,6 @@
 import unittest
 
-from battleship import ShipError, parse_coords_string, Board, Ship
+from battleship import ShipError, CoordsError, parse_coords_string, Board, Ship
 
 
 class BoardTests(unittest.TestCase):
@@ -27,9 +27,9 @@ class ParseCoordsStringTests(unittest.TestCase):
 
 class ShipSetupTests(unittest.TestCase):
     def test_ship_setup(self):
-        with self.assertRaises(ShipError):
+        with self.assertRaises(CoordsError):
             self.ship = Ship((0, 0), (0, 15), 'Carrier')
-        with self.assertRaises(ShipError):
+        with self.assertRaises(CoordsError):
             self.ship = Ship((0, 0), (0, 4, 0), 'Carrier')
         with self.assertRaises(ShipError):
             self.ship = Ship((0, 0), (0, 3), 'Carrier')
@@ -37,11 +37,13 @@ class ShipSetupTests(unittest.TestCase):
 
 class ShipTests(unittest.TestCase):
     def setUp(self):
-        self.ship = Ship((0, 0), (0, 4), 'Carrier')
+        self.ship = Ship((1, 1), (1, 5), 'Carrier')
 
     def test_ship_length(self):
-        self.ship = Ship((0, 0), (0, 4), 'Carrier')
         self.assertEqual(self.ship.length, 5)
+
+    def test_ship_occupied_coords(self):
+        self.assertEqual(self.ship.occupied_coords, [(1, 1), (1, 2), (1, 3), (1, 4), (1, 5)])
 
 
 if __name__ == '__main__':
