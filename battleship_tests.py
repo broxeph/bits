@@ -47,8 +47,8 @@ class ShipTests(unittest.TestCase):
         self.assertEqual(self.ship.length, 5)
 
     def test_ship_occupied_coords(self):
-        self.assertEqual(self.ship.occupied_points[0], {'coords': (1, 1), 'mark': ' '})
-        self.assertEqual(self.ship.occupied_points[-1], {'coords': (1, 5), 'mark': ' '})
+        self.assertEqual(self.ship.points[0], {'coords': (1, 1), 'mark': ' '})
+        self.assertEqual(self.ship.points[-1], {'coords': (1, 5), 'mark': ' '})
 
     def test_ship_hp(self):
         self.assertEqual(self.ship.hp, 5)

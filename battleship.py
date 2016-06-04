@@ -119,11 +119,11 @@ class Ship:
         self.ship_type = ship_type
 
         # Add occupied points
-        self.occupied_points = []
+        self.points = []
         for point in range(self.length):
             row = self.begin[0] + (point if self.begin[0] != self.end[0] else 0)
             col = self.begin[1] + (point if self.begin[1] != self.end[1] else 0)
-            self.occupied_points.append({
+            self.points.append({
                 'coords': (row, col),
                 'mark': ' '
             })
@@ -135,14 +135,14 @@ class Ship:
 
     def register_hit(self, coords):
         """Add a hit to the appropriate coordinate."""
-        if coords not in [point['coords'] for point in self.occupied_points]:
+        if coords not in [point['coords'] for point in self.points]:
             raise ShipError('{0} does not contain a hit for coord {1}'.format(self, coords))
-        next(point for point in self.occupied_points if point['coords'] == coords)['mark'] = 'X'
+        next(point for point in self.points if point['coords'] == coords)['mark'] = 'X'
 
     @property
     def hp(self):
         """Return number of non-hit points left in the ship."""
-        return sum(1 for point in self.occupied_points if point['mark'] == ' ')
+        return sum(1 for point in self.points if point['mark'] == ' ')
 
     @property
     def status(self):
