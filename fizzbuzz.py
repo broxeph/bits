@@ -29,7 +29,7 @@ def method_two():
 if __name__ == '__main__':
 	if random.randint(0,1):
 		method_one()
-		print ('(This way)')
+		print('(This way)')
 	else:
 		method_two()
-		print ('(That way)')
+		print('(That way)')
