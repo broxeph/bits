@@ -34,10 +34,10 @@ def parse_coords_string(coords_string, board_size=26):
         raise CoordsError('Coordinates must be a string value.')
     if not 2 <= len(coords_string) <= 3:
         raise CoordsError('Coordinates must be length 2 or 3.')
-    if coords_string[0].upper() not in ROW_LABELS:
-        raise CoordsError('Coordinates must begin with a letter in: ' + ' '.join(ROW_LABELS))
-    if coords_string[1:] not in COL_LABELS:
-        raise CoordsError('Coordinates must begin with a number in: ' + ' '.join(COL_LABELS))
+    if coords_string[0].upper() not in ROW_LABELS[:board_size - 1]:
+        raise CoordsError('Coordinates must begin with a letter in: ' + ' '.join(ROW_LABELS[:board_size - 1]))
+    if coords_string[1:] not in COL_LABELS[:board_size - 1]:
+        raise CoordsError('Coordinates must end with a number in: ' + ' '.join(COL_LABELS[:board_size - 1]))
 
     coords = (ROW_LABELS.index(coords_string[0].upper()), COL_LABELS.index(coords_string[1:]))
     validate_coords(coords, board_size)
@@ -47,8 +47,10 @@ def parse_coords_string(coords_string, board_size=26):
 
 def validate_coords(coords, board_size=26):
     """Make sure coords aren't malformed and don't run off the board."""
-    if any([type(coords) is not tuple, len(coords) != 2,
-            not 0 <= coords[0] <= board_size - 1, not 0 <= coords[1] <= board_size - 1]):
+    if type(coords) is not tuple or \
+            len(coords) != 2 or \
+            not 0 <= coords[0] <= board_size - 1 or \
+            not 0 <= coords[1] <= board_size - 1:
         raise CoordsError('Coordinates must be a 2-tuple with values between 0 and {}.'.format(board_size - 1))
 
 
@@ -82,7 +84,7 @@ class Board:
 
     def add_ships(self, ships):
         for ship in ships:
-            for point in ship.occupied_points:
+            for point in ship.points:
                 coords = point['coords']
                 validate_coords(coords, self.board_size)
                 self.grid[coords[0]][coords[1]]['ship'] = ship
@@ -152,6 +154,21 @@ class Ship:
     def __str__(self):
         return '{0} - {1}-{2} - {3}'.format(self.ship_type, self.begin, self.end, self.status)
 
+
+def user_add_ships(board, ships):
+    """Prompts the user to add ships to their board."""
+    for ship in ships:
+        coords = None
+        while not coords:
+            print()
+            input_coords = input("Enter the starting coordinates for your {}: ".format(ship))
+            try:
+                coords = parse_coords_string(input_coords, board_size=board.board_size)
+            except CoordsError as e:
+                print("Nope! {}".format(e))
+        print("{}? Nice.".format(coords))
+
+
 if __name__ == '__main__':
     board = Board(board_size=10)
     b = Ship((1, 1), (1, 4), 'Battleship')
@@ -161,3 +178,5 @@ if __name__ == '__main__':
     board.show(show_ships=True)
     board.add_ships([b, p])
     board.show(show_ships=True)
+
+    user_add_ships(board, ['Submarine'])
