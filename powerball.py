@@ -37,6 +37,10 @@ from collections import OrderedDict, Counter
 from random import randint
 
 
+# TODO: Enforce number uniqueness.
+# TODO: Add comments.
+
+
 TICKET_CHOICES = OrderedDict({
     '1st': 69,
     '2nd': 69,
@@ -54,7 +58,6 @@ def get_employee_numbers():
     numbers = []
     for ordinal, max_value in TICKET_CHOICES.items():
         while True:
-            # TODO: Enforce number uniqueness.
             number = input(f'Select {ordinal} ticket (1 thru 69): ')
             if number.isdigit() and 1 <= int(number) <= max_value:
                 break
