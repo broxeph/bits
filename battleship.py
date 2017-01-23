@@ -14,6 +14,7 @@ ROW_LABELS = string.ascii_uppercase
 COL_LABELS = [str(col + 1) for col in range(26)]
 DEBUG = True
 
+
 class CoordsError(Exception):
     pass
 
